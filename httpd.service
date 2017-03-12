@@ -1,0 +1,12 @@
+[Service]
+ExecStart=/usr/local/bin/node /home/centos/website/bin/www
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=httpd
+User=centos
+Group=centos
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

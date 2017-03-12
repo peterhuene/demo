@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+if [ -d "/home/centos/website" ]; then
+  echo "notice: pulling recent changes." >&2
+  cd /home/centos/website
+  git pull --rebase 1>/dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    exit 1
+  fi
+  echo "notice: running npm install." >&2
+  npm install 1>/dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    exit 1
+  fi
+else
+  echo "notice: cloning new repository." >&2
+  cd /home/centos
+  git clone --recursive $1 /home/centos/website
+  if [ $? -ne 0 ]; then
+    exit 1
+  fi
+  echo "notice: running npm install." >&2
+  cd /home/centos/website
+  npm install 1>/dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    exit 1
+  fi
+  echo "notice: installing http service." >&2
+  sudo cp httpd.service /etc/systemd/system/httpd.service
+  if [ $? -ne 0 ]; then
+    exit 1
+  fi
+  sudo systemctl enable httpd 1>/dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    echo "error: failed to enable httpd service." >&2
+    exit 1
+  fi
+fi
+
+echo "notice: website updated successfully." >&2

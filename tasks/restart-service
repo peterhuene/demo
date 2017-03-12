@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+for service in "$@"
+do
+  echo "notice: restarting '$service' service." 1>&2
+
+  sudo systemctl restart $service
+  if [ $? -ne 0 ]; then
+    exit 1
+  fi
+
+  echo "notice: '$service' service restarted successfully." >&2
+done
