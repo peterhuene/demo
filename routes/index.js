@@ -3,7 +3,7 @@ var router = express.Router();
 
 router.get('/', function(req, res, next) {
   res.render('index', {
-    version: "4.1.9"
+    version: "4.2.0"
   });
 });
 
