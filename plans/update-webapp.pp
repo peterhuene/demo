@@ -1,5 +1,5 @@
 {
-  name => 'update web application..',
+  name => 'update web application.',
   task_paths => ['../tasks'],
   steps => [
     '../steps/update-website.pp',
